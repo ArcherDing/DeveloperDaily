@@ -2,6 +2,7 @@
  * Created by archerding on 16-4-20.
  */
 import React, {
+    AsyncStorage,
     Component,
     Image,
     StyleSheet,
@@ -10,16 +11,14 @@ import React, {
 
 import LaunchScreen from './LaunchScreen';
 import MainScreen from './MainScreen';
-
+const FIRST_LAUNCH = "@DeveloperDaily:FirstLaunch"
 const LOGO = require('./img/logo_fill_blue.png');
 
 export default class SplashScreen extends Component {
-    constructor(props) {
-        super(props);
-        let {navigator} = props;
-
+    _gotoNextScreen(route) {
+        const {navigator} = this.props;
         setTimeout(() => {
-            navigator.replace({ name: 'LaunchScreen', component: LaunchScreen });
+            navigator.replace(route);
         }, 2000);
     }
 
@@ -29,6 +28,19 @@ export default class SplashScreen extends Component {
                 <Image style={styles.logo} source={LOGO} />
             </View>
         );
+    }
+
+    componentDidMount() {
+        this._loadInitialState().done();
+    }
+
+    async _loadInitialState() {
+        let value = await AsyncStorage.getItem(FIRST_LAUNCH);
+        if (value != null) {
+            this._gotoNextScreen({ name: 'MainScreen', component: MainScreen });
+        } else {
+            this._gotoNextScreen({ name: 'LaunchScreen', component: LaunchScreen });
+        }
     }
 }
 

@@ -9,22 +9,21 @@ import React, {
 export default class PageIndicator extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            selectedNum: 0,
-            selectedColor: '#24B2EB',
-            unselectedColor: '#9E9E9E'
+            selectedIndex: this.props.initialPage,
         };
     }
 
-    setSelected(num) {
-        this.setState({ selectedNum: num });
+    setSelectedIndex(index) {
+        this.setState({ selectedIndex: index });
     }
 
     render() {
         let indicators = [];
         for (let i = 0; i < this.props.count; i++) {
             let indicatorStyle = {
-                backgroundColor: i === this.state.selectedNum ? this.state.selectedColor : this.state.unselectedColor,
+                backgroundColor: i === this.state.selectedIndex ? this.props.selectedColor : this.props.unselectedColor,
                 width: 20,
                 height: 3,
                 margin: 2
@@ -38,3 +37,9 @@ export default class PageIndicator extends Component {
         );
     }
 }
+
+PageIndicator.defaultProps = {
+    initialPage: 0,
+    selectedColor: '#24B2EB',
+    unselectedColor: '#9E9E9E'
+};
