@@ -18,7 +18,7 @@ export default class AppNavigator extends Component {
         return (
             <Navigator
                 initialRoute={firstRoute}
-                configureScene={route => Navigator.SceneConfigs.HorizontalSwipeJump}
+                configureScene={route => Navigator.SceneConfigs.FloatFromLeft}
                 renderScene={(route, navigator) => {
                     let Component = route.component;
                     return <Component {...route.params} navigator={navigator} />
